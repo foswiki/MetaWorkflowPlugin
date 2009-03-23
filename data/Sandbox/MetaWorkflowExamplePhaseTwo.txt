@@ -3,7 +3,5 @@
 
 MetaWorkflowExample document.
 
--- Main.AndrewJones - 31 Jan 2007
-
 %META:FORM{name="Sandbox.MetaWorkflowExampleFormDefinition"}%
 %META:FIELD{name="Status" attributes="" title="Status" value="Complete"}%

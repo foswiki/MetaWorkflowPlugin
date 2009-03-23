@@ -1,7 +1,7 @@
 %META:TOPICINFO{author="ProjectContributor" date="1170220558" format="1.1" version="0"}%
 ---+!! !MetaWorkflowPlugin
 
-This plugin defines a workflow based on updated meta data in a number of topics. It was originally written for use with the [[Foswiki:Extensions.WorkflowPlugin][WorkflowPlugin]], but can also be used to create a workflow using DataForms or any other changing meta data. To view the meta data of a topic, append ==?raw=debug== to the URL (i.e. %SCRIPTURL{"view"}%/%WEB%/%TOPIC%?raw=debug).
+This plugin defines a workflow based on updated meta data in a number of topics. It was originally written for use with the [[Foswiki:Extensions.WorkflowPlugin][WorkflowPlugin]] and the [[Foswiki:Extensions.ApprovalPlugin][ApprovalPlugin]], but can also be used to create a workflow using DataForms or any other changing meta data. To view the meta data of a topic, append ==?raw=debug== to the URL (i.e. %SCRIPTURL{"view"}%/%WEB%/%TOPIC%?raw=debug).
 
 %TOC%
 
@@ -34,7 +34,7 @@ A working example of using this plugin to create a workflow based on the value o
 
 ---++ Plugin Settings
 
-* To suppress warnings on your topic, use the following (Note: only has effect on the topic it is set on):
+To suppress warnings on your topic, use the following (Note: only has effect on the topic it is set on):
 <verbatim>
    * Set METAWORKFLOWWARNING = off
 </verbatim>
@@ -50,15 +50,16 @@ A working example of using this plugin to create a workflow based on the value o
 
 ---++ Plugin Info
 
-|  Plugin Author(s): | TWiki:Main.AndrewRJones |
-|  Plugin Version: | %$VERSION% |
-|  Copyright: | &copy; |
+|  Plugin Author(s): | Foswiki:Main.AndrewJones |
+|  Copyright: | &copy; 2007 - 2009 Foswiki:Main.AndrewJones |
 |  License: | [[http://www.gnu.org/licenses/gpl.html][GPL (Gnu General Public License)]] |
+|  Plugin Release: | %$RELEASE% |
+|  Plugin Version: | %$VERSION% |
 |  Change History: | <!-- versions below in reverse order -->&nbsp; |
-|  13997 | Initial version |
+|  23 Mar 2009 | Foswiki:Tasks.Item1256 - Ported to Foswiki as 1.0 |
+|  31 May 2007 | Initial version for TWiki |
 |  Dependencies: | %$DEPENDENCIES% |
-|  Plugin Home: | http://twiki.org/cgi-bin/view/Plugins/MetaWorkflowPlugin |
-|  Feedback: | http://twiki.org/cgi-bin/view/Plugins/MetaWorkflowPluginDev |
-|  Appraisal: | http://twiki.org/cgi-bin/view/Plugins/MetaWorkflowPluginAppraisal |
+|  Plugin Home: | http://foswiki.org/Extensions/%TOPIC% |
+|  Support: | http://foswiki.org/Support/%TOPIC% |
 
 <!-- Do _not_ attempt to edit this topic; it is auto-generated. Please add comments/questions/remarks to the Dev topic instead. -->

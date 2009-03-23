@@ -1,6 +1,6 @@
 # Plugin for Foswiki - The Free and Open Source Wiki, http://foswiki.org/
 #
-# Copyright (C) 2007 Andrew Jones, andrewjones86@googlemail.com
+# Copyright (C) 2007 - 2009 Andrew Jones, andrewjones86@googlemail.com
 #
 # This program is free software; you can redistribute it and/or
 # modify it under the terms of the GNU General Public License
@@ -12,10 +12,14 @@
 # but WITHOUT ANY WARRANTY; without even the implied warranty of
 # MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.
 #
-# For licensing info read LICENSE file in the TWiki root.
+# For licensing info read LICENSE file in the Foswiki root.
 
-package TWiki::Plugins::MetaWorkflowPlugin;
+package Foswiki::Plugins::MetaWorkflowPlugin;
 use strict;
+
+require Foswiki::Func;
+require Foswiki::Plugins;
+
 use vars qw(    $VERSION
                 $RELEASE
                 $NO_PREFS_IN_TOPIC
@@ -23,20 +27,14 @@ use vars qw(    $VERSION
                 $pluginName
                 );
 
-$VERSION = '$Rev: 9813$';
-$RELEASE = 'Dakar';
-$NO_PREFS_IN_TOPIC = 1;
-$SHORTDESCRIPTION = 'Defines a workflow based on updated meta data (such as form fields, or meta data from another plugin)';
-$pluginName = 'MetaWorkflowPlugin';
+our $VERSION = '$Rev: 9813$';
+our $RELEASE = '1.0';
+our $NO_PREFS_IN_TOPIC = 1;
+our $SHORTDESCRIPTION = 'Defines a workflow based on updated meta data (such as form fields, or meta data from another plugin)';
+our $pluginName = 'MetaWorkflowPlugin';
 
 # =========================
 sub initPlugin {
-    # check for Plugins.pm versions
-    if( $TWiki::Plugins::VERSION < 1.026 ) {
-        TWiki::Func::writeWarning( "Version mismatch between $pluginName and Plugins.pm" );
-        return 0;
-    }
-
     # plugin correctly initialized
     return 1;
 }
@@ -57,17 +55,17 @@ sub _handleTag {
 
     # look for METAWORKFLOWDEFINITION setting
     my $defTopic = '';
-    ($theWeb, $theTopic) = TWiki::Func::normalizeWebTopicName($theWeb, $defTopic)
-        if $defTopic = TWiki::Func::getPreferencesValue("METAWORKFLOWDEFINITION");
+    ($theWeb, $theTopic) = Foswiki::Func::normalizeWebTopicName($theWeb, $defTopic)
+        if $defTopic = Foswiki::Func::getPreferencesValue("METAWORKFLOWDEFINITION");
 
     return _returnError("Topic [[$theWeb.$theTopic]] does not exist. Check your METAWORKFLOWDEFINITION setting.")
-        unless TWiki::Func::topicExists($theWeb, $theTopic);
+        unless Foswiki::Func::topicExists($theWeb, $theTopic);
 
-    my (undef, $text) = TWiki::Func::readTopic($theWeb, $theTopic);
+    my (undef, $text) = Foswiki::Func::readTopic($theWeb, $theTopic);
 
     if($text =~ m/%METAWORKFLOW{(.*)}%\n/g){
         # in definition table
-        my %params = TWiki::Func::extractParameters($1);
+        my %params = Foswiki::Func::extractParameters($1);
 
         while($text =~ m/\G\|(.*)\|(.*)\|(.*)\|\n?/gc){ # each row in table
             my ($webTopic, $value, $message) = ($1, $2, $3);
@@ -82,13 +80,13 @@ sub _handleTag {
             $webTopic =~ s/ //g;
             next if $webTopic =~ m/\*.*\*/; # table header
             return $message if lc$webTopic eq 'final';
-            my ($web, $topic) = TWiki::Func::normalizeWebTopicName($theWeb, $webTopic);
+            my ($web, $topic) = Foswiki::Func::normalizeWebTopicName($theWeb, $webTopic);
 
             return _returnError("Topic [[$web.$topic]] does not exist. Check your %<nop>METAWORKFLOW{...}% table.")
-                unless TWiki::Func::topicExists($web, $topic);
+                unless Foswiki::Func::topicExists($web, $topic);
 
             # get meta data     
-            my ($meta, undef) = TWiki::Func::readTopic($web, $topic);
+            my ($meta, undef) = Foswiki::Func::readTopic($web, $topic);
             my $att = $meta->get($params{type}, $params{name});
             my $key = $params{key} || 'name';
 
@@ -109,18 +107,18 @@ sub _returnError {
 
     _Debug($text);
 
-    my $warn = TWiki::Func::getPreferencesValue("METAWORKFLOWWARNING");
+    my $warn = Foswiki::Func::getPreferencesValue("METAWORKFLOWWARNING");
     return if lc$warn eq 'off';
 
-    return "<span class='twikiAlert'>${pluginName} error: $text</span>";
+    return "<span class='foswikiAlert'>${pluginName} error: $text</span>";
 }
 
 sub _Debug {
     my $text = shift;
 
-    my $debug = $TWiki::cfg{Plugins}{$pluginName}{Debug} || 0;
+    my $debug = $Foswiki::cfg{Plugins}{$pluginName}{Debug} || 0;
 
-    TWiki::Func::writeDebug( "- TWiki::Plugins::${pluginName}: $text" ) if $debug;
+    Foswiki::Func::writeDebug( "- Foswiki::Plugins::${pluginName}: $text" ) if $debug;
 }
 
 1;
